@@ -1,0 +1,21 @@
+#!/usr/bin/ruby 
+require 'getopt/std'
+require 'nokogiri'
+require 'open-uri'
+require 'down'
+
+opt = Getopt::Std.getopts("s:e:")
+hentaiName = opt["s"]
+episodes = 1
+maxEpisodes = nil
+doc = File.open("test.html")
+link = "http://hentaihaven.org/"
+homepage = Nokogiri::HTML(doc)
+homepage.css('a.brick-title').each do |a|
+	toLink = a["href"]
+	lul = Nokogiri::HTML(open(toLink))
+	dlLink = lul.at('source')[:src]
+	p "Dowloading: #{dlLink}"
+	Down.download(dlLink, destination: Dir.pwd + "/downloads/")
+end
+
