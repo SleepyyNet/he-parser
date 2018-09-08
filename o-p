@@ -1,0 +1,22 @@
+#!/usr/bin/ruby 
+require 'getopt/std'
+require 'nokogiri'
+require 'open-uri'
+require 'down'
+
+opt = Getopt::Std.getopts("s:e:")
+hentaiName = opt["s"]
+episodes = 1
+maxEpisodes = opt["e"]
+loop do
+	
+	link = "http://hentaihaven.org/" + hentaiName + "-episode-"+ episodes.to_s
+	page = Nokogiri::HTML(open(link))
+	dlLink = page.at('source')[:src]
+	p "Dowloading: #{dlLink}"
+	Down.download(dlLink, destination: Dir.pwd + "/downloads/")
+	episodes += 1
+	if episodes == maxEpisodes
+		break
+	end
+end
