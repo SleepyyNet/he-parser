@@ -3,13 +3,7 @@ require 'getopt/std'
 require 'nokogiri'
 require 'open-uri'
 require 'down'
-
-opt = Getopt::Std.getopts("s:e:")
-hentaiName = opt["s"]
-episodes = 1
-maxEpisodes = nil
 doc = File.open("test.html")
-link = "http://hentaihaven.org/"
 homepage = Nokogiri::HTML(doc)
 homepage.css('a.brick-title').each do |a|
 	toLink = a["href"]
